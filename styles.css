@@ -20,9 +20,16 @@
     box-shadow: 1px 2px 5px 5px #33333313;
 }
 .calculator{
-    padding-top: 20px;
-    width: 400px;
     margin: 0 auto;
+    margin-top: 20px;
+    width: 400px;
+    box-shadow: 1px 2px 20px 5px #22222238;
+}
+.calculator h1{
+    text-align: center;
+    padding: 15px 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-transform: uppercase;
 }
 .input-area{
     width: 100%;
