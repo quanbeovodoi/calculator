@@ -8,8 +8,9 @@
 </head>
 <body>
     <div class="calculator">
+        <h1>Tính toán</h1>
         <div class="calc-area">
-            <input type="text" class="input" id="input" disabled/>
+            <input type="text" class="input" id="input" value="0" disabled/>
             <button class="btn clear-btn" onclick="onClear()">C</button>
             <button class="btn" value="1" onclick="onButton(value)">1</button>
             <button class="btn" value="2" onclick="onButton(value)">2</button>
@@ -40,15 +41,21 @@
                 isDone = false;
                 onClear();
             }
-            input.value += value;
-            currentVal.push(value);
-            console.log('answer = ', arrNumb , 'currentVal = ', currentVal);
+            if(input.value != '0' || value != '0'){
+                if(input.value === '0'){
+                    input.value = ''
+                }
+                input.value += value;
+                currentVal.push(value);
+                console.log('answer = ', arrNumb , 'currentVal = ', currentVal);   
+            }
             // console.log(currentVal.join(''));
         }
         // Thực hiện tính toán
         function calculator(){
             const result = arrNumb.reduce((preVal,currVal)=>{
                 let newVal;
+                // Thực hiện phép tính 2 số tương ứng với mỗi phép đã lưu trong mảng
                 if(Operator[0]!= []){
                     if(Operator[0] === '+')
                     {
@@ -71,6 +78,7 @@
                 console.log(preVal,currVal,newVal)
                 return newVal;
             })
+            // Lưu kết quả vào nếu muốn thực hiện tính tiếp
             arrNumb = [result];
             input.value = result;
         }
@@ -93,18 +101,23 @@
         }
         // Làm sạch nội dung đã nhập
         function onClear(){
-            input.value = null;
-            currentVal = [];
-            arrNumb = [];
-            Operator = [];
+            input.value = 0;//xoá phần hiển thị
+            currentVal = [];//Xoá giá trị hiện tại đang nhập
+            arrNumb = [];//Xoá các giá trị đã nhập
+            Operator = [];//Xoá các phép tính
         }
         // hàm hiển thị kết quả
         function onResult(){
-            isDone = true;
-            arrNumb.push(Number(currentVal.join('')));
-            currentVal = [];
-            calculator();
-            console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
+            if(input.value && Operator.length > 0){
+                isDone = true;
+                // Đưa giá trị hiện tại đang nhập vào arrNumb
+                arrNumb.push(Number(currentVal.join('')));
+                // Xoá bỏ giá trị hiện tại đang nhập
+                currentVal = [];
+                //  Thực hiện tính toán
+                calculator();
+                console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
+            }
         }
     </script>
 </body>
