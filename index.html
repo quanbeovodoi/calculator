@@ -84,6 +84,9 @@
                     currentVal = [];
                     Operator.push(value)
                 }
+                if(value === '.'){
+                    currentVal.push(value);
+                }
                 input.value += value;
             }
             console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
