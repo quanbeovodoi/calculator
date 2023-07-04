@@ -32,11 +32,13 @@
     </div>
     <script>
         const input = document.getElementById("input");
-        let arrNumb = [];// Lưu các giá trị số để tính
+        let arrNumb = [0];// Lưu các giá trị số để tính
         let currentVal = [];//giá trị hiện tại đang nhập
         let Operator = [];//các phép tính đã nhập
         let isDone = false;//check xem đã nhấn dấu bằng chưa
+        let isOperator = false;//check xem đã nhấn dấu chưa nếu nhấn rồi thì ko cho nhấn chỉ được thực hiện nhấn tiếp khi đã nhấn số
         function onButton(value){
+            isOperator = false;
             if(isDone){
                 isDone = false;
                 onClear();
@@ -56,22 +58,19 @@
             const result = arrNumb.reduce((preVal,currVal)=>{
                 let newVal;
                 // Thực hiện phép tính 2 số tương ứng với mỗi phép đã lưu trong mảng
-                if(Operator[0]!= []){
-                    if(Operator[0] === '+')
+                if(Operator.length>0){
+                    let optHead = Operator.shift().toString()
+                    if(optHead === '+')
                     {
-                        Operator.shift()
                         newVal = preVal + currVal;
-                    }else if(Operator[0] === '-')
+                    }else if(optHead === '-')
                     {
-                        Operator.shift()
                         newVal = preVal - currVal;
-                    }else if(Operator[0] === '*')
+                    }else if(optHead === '*')
                     {
-                        Operator.shift()
                         newVal = preVal * currVal;
-                    }else if(Operator[0] === '/')
+                    }else if(optHead === '/')
                     {
-                        Operator.shift()
                         newVal = preVal / currVal;
                     }
                 }
@@ -84,26 +83,27 @@
         }
         // Đưa các phép tính sau khi đã nhập vào cùng một mảng
         function onOperator(value){
-            isDone = false;
-            if(input.value != 0){                
-                if(value != '' && value!='.'){
-                    if(Number(currentVal.join('')))
-                    arrNumb.push(Number(currentVal.join('')));
-                    currentVal = [];
-                    Operator.push(value)
-                }
-                if(value === '.'){
-                    currentVal.push(value);
-                }
-                input.value += value;
+            if(!isOperator){
+                isDone = false;              
+                    if(value != '' && value!='.'){
+                        if(Number(currentVal.join('')))
+                        arrNumb.push(Number(currentVal.join('')));
+                        currentVal = [];
+                        Operator.push(value)
+                    }
+                    if(value === '.'){
+                        currentVal.push(value);
+                    }
+                    input.value += value;
+                console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
             }
-            console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
+            isOperator = true
         }
         // Làm sạch nội dung đã nhập
         function onClear(){
             input.value = 0;//xoá phần hiển thị
             currentVal = [];//Xoá giá trị hiện tại đang nhập
-            arrNumb = [];//Xoá các giá trị đã nhập
+            arrNumb = [0];//Xoá các giá trị đã nhập
             Operator = [];//Xoá các phép tính
         }
         // hàm hiển thị kết quả
