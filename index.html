@@ -47,7 +47,6 @@
         }
         // Thực hiện tính toán
         function calculator(){
-            
             const result = arrNumb.reduce((preVal,currVal)=>{
                 let newVal;
                 if(Operator[0]!= []){
@@ -72,6 +71,7 @@
                 console.log(preVal,currVal,newVal)
                 return newVal;
             })
+            arrNumb = [result];
             input.value = result;
         }
         // Đưa các phép tính sau khi đã nhập vào cùng một mảng
@@ -79,6 +79,7 @@
             isDone = false;
             if(input.value != 0){                
                 if(value != '' && value!='.'){
+                    if(Number(currentVal.join('')))
                     arrNumb.push(Number(currentVal.join('')));
                     currentVal = [];
                     Operator.push(value)
