@@ -50,25 +50,25 @@
             
             const result = arrNumb.reduce((preVal,currVal)=>{
                 let newVal;
-                Operator.forEach((val)=>{
-                    if(val === '+')
+                if(Operator[0]!= []){
+                    if(Operator[0] === '+')
                     {
                         Operator.shift()
-                        newVal =preVal + currVal;
-                    }else if(val === '-')
+                        newVal = preVal + currVal;
+                    }else if(Operator[0] === '-')
                     {
                         Operator.shift()
-                        newVal =preVal - currVal;
-                    }else if(val === '*')
+                        newVal = preVal - currVal;
+                    }else if(Operator[0] === '*')
                     {
                         Operator.shift()
-                        newVal =preVal * currVal;
-                    }else if(val === '/')
+                        newVal = preVal * currVal;
+                    }else if(Operator[0] === '/')
                     {
                         Operator.shift()
-                        newVal =preVal / currVal;
+                        newVal = preVal / currVal;
                     }
-                })
+                }
                 console.log(preVal,currVal,newVal)
                 return newVal;
             })
