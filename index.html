@@ -45,11 +45,12 @@
             }
             if(input.value != '0' || value != '0'){
                 if(input.value === '0'){
-                    input.value = ''
+                    input.value = '';
+                    arrNumb = [];
                 }
                 input.value += value;
                 currentVal.push(value);
-                console.log('answer = ', arrNumb , 'currentVal = ', currentVal);   
+                console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal);   
             }
             // console.log(currentVal.join(''));
         }
@@ -59,17 +60,17 @@
                 let newVal;
                 // Thực hiện phép tính 2 số tương ứng với mỗi phép đã lưu trong mảng
                 if(Operator.length>0){
-                    let optHead = Operator.shift().toString()
-                    if(optHead === '+')
+                    let optHead = Operator.shift()
+                    if(optHead.toString() === '+')
                     {
                         newVal = preVal + currVal;
-                    }else if(optHead === '-')
+                    }else if(optHead.toString() === '-')
                     {
                         newVal = preVal - currVal;
-                    }else if(optHead === '*')
+                    }else if(optHead.toString() === '*')
                     {
                         newVal = preVal * currVal;
-                    }else if(optHead === '/')
+                    }else if(optHead.toString() === '/')
                     {
                         newVal = preVal / currVal;
                     }
