@@ -78,26 +78,20 @@
                 console.log(preVal,currVal,newVal)
                 return newVal;
             })
-            
-            // Lưu kết quả vào nếu muốn thực hiện tính tiếp
             arrNumb = [result];
             input.value = result;
         }
         // Đưa các phép tính sau khi đã nhập vào cùng một mảng
         function onOperator(value){
-            if(!isOperator){
-                isDone = false;              
-                    if(value != '' && value!='.'){
-                        if(Number(currentVal.join('')))
-                        arrNumb.push(Number(currentVal.join('')));
-                        currentVal = [];
-                        Operator.push(value);
-                    }
-                    if(value === '.'){
-                        currentVal.push(value);
-                    }
-                    input.value += value;
-                console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
+            isDone = false;
+            if(input.value != 0){                
+                if(value != '' && value!='.'){
+                    if(Number(currentVal.join('')))
+                    arrNumb.push(Number(currentVal.join('')));
+                    currentVal = [];
+                    Operator.push(value)
+                }
+                input.value += value;
             }
             isOperator = true
         }
