@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="calculator">
+        <div class="calc-area">
+            <input type="text" class="input" id="input" disabled/>
+            <button class="btn clear-btn" onclick="onClear()">C</button>
+            <button class="btn" value="1" onclick="onButton(value)">1</button>
+            <button class="btn" value="2" onclick="onButton(value)">2</button>
+            <button class="btn" value="3" onclick="onButton(value)">3</button>
+            <button class="btn" value="4" onclick="onButton(value)">4</button>
+            <button class="btn" value="5" onclick="onButton(value)">5</button>
+            <button class="btn" value="6" onclick="onButton(value)">6</button>
+            <button class="btn" value="7" onclick="onButton(value)">7</button>
+            <button class="btn" value="8" onclick="onButton(value)">8</button>
+            <button class="btn" value="9" onclick="onButton(value)">9</button>
+            <button class="btn" value="0" onclick="onButton(value)">0</button>
+            <button class="btn" value="." onclick="onOperator(value)">.</button>
+            <button class="btn increase-btn" value="+" onclick="onOperator(value)">+</button>
+            <button class="btn decrease-btn" value="-" onclick="onOperator(value)">-</button>
+            <button class="btn multiplication-btn" value="*" onclick="onOperator(value)">*</button>
+            <button class = "btn divide" value="/" onclick="onOperator(value)">/</button>
+            <button class = "btn result" onclick="onResult()">=</button>
+        </div>
+    </div>
+    <script>
+        const input = document.getElementById("input");
+        let arrNumb = [];// Lưu các giá trị số để tính
+        let currentVal = [];//giá trị hiện tại đang nhập
+        let Operator = [];//các phép tính đã nhập
+        let isDone = false;//check xem đã nhấn dấu bằng chưa
+        function onButton(value){
+            if(isDone){
+                isDone = false;
+                onClear();
+            }
+            input.value += value;
+            currentVal.push(value);
+            console.log('answer = ', arrNumb , 'currentVal = ', currentVal);
+            // console.log(currentVal.join(''));
+        }
+        // Thực hiện tính toán
+        function calculator(){
+            
+            const result = arrNumb.reduce((preVal,currVal)=>{
+                let newVal;
+                Operator.forEach((val)=>{
+                    if(val === '+')
+                    {
+                        Operator.shift()
+                        newVal =preVal + currVal;
+                    }else if(val === '-')
+                    {
+                        Operator.shift()
+                        newVal =preVal - currVal;
+                    }else if(val === '*')
+                    {
+                        Operator.shift()
+                        newVal =preVal * currVal;
+                    }else if(val === '/')
+                    {
+                        Operator.shift()
+                        newVal =preVal / currVal;
+                    }
+                })
+                console.log(preVal,currVal,newVal)
+                return newVal;
+            })
+            input.value = result;
+        }
+        // Đưa các phép tính sau khi đã nhập vào cùng một mảng
+        function onOperator(value){
+            isDone = false;
+            if(input.value != 0){                
+                if(value != '' && value!='.'){
+                    arrNumb.push(Number(currentVal.join('')));
+                    currentVal = [];
+                    Operator.push(value)
+                }
+                input.value += value;
+            }
+            console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
+        }
+        // Làm sạch nội dung đã nhập
+        function onClear(){
+            input.value = null;
+            currentVal = [];
+            arrNumb = [];
+            Operator = [];
+        }
+        // hàm hiển thị kết quả
+        function onResult(){
+            isDone = true;
+            arrNumb.push(Number(currentVal.join('')));
+            currentVal = [];
+            calculator();
+            console.log('arrNumb = ', arrNumb , 'currentVal = ', currentVal,'operator = ', Operator);
+        }
+    </script>
+</body>
+</html>
