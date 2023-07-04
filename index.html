@@ -78,6 +78,7 @@
                 console.log(preVal,currVal,newVal)
                 return newVal;
             })
+            
             // Lưu kết quả vào nếu muốn thực hiện tính tiếp
             arrNumb = [result];
             input.value = result;
@@ -90,7 +91,7 @@
                         if(Number(currentVal.join('')))
                         arrNumb.push(Number(currentVal.join('')));
                         currentVal = [];
-                        Operator.push(value)
+                        Operator.push(value);
                     }
                     if(value === '.'){
                         currentVal.push(value);
