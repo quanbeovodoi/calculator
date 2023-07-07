@@ -1,17 +1,150 @@
-const input = document.getElementById("input");
+
 let arrNumb = [];
 let currentVal = [0];
 let Operator = []; 
 let isDone = false, isOperator = false;
-function renderBtn(){
+let input ;
+const button = (classes = '',value=null,func=()=>{},type = button,disabled = false)=>{
+  if(type == 'button')
+    return `<button class="btn ${classes}" value=${value} onclick="${func}">${value}</button>`
+  else if(type === 'input')
+    return `<input type="text" class="input ${classes}" id="input" value="${value}" ${disabled?`disabled`:''} />`
+  else{
+    return `<button class="btn" value="1" onclick="()=>{}">Button</button>`
+  }
+}
+const buttonInfo = [
+  {
+    classes:'',
+    value: 0,
+    func: `onButton(value)`,
+    type: 'input',
+    disabled: true
+  },
+  {
+    classes:'clear-btn',
+    value: 'C',
+    func: `onClear()`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: 1,
+    func: `onButton(value)`,
+    type: 'button'
+  }
+  ,
+  {
+    classes:'',
+    value: 2,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  ,
+  {
+    classes:'',
+    value: 3,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  ,
+  {
+    classes:'increase-btn',
+    value: '+',
+    func: `onOperator(value)`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: 4,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: 5,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: 6,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  {
+    classes:'decrease-btn',
+    value: '-',
+    func: `onOperator(value)`,
+    type: 'button'
+  },
+  ,
+  {
+    classes:'',
+    value: 7,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  ,
+  {
+    classes:'',
+    value: 8,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: 9,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  {
+    classes:'multiplication-btn',
+    value: '*',
+    func: `onOperator(value)`,
+    type: 'button'
+  },
+  {
+    classes:'divide',
+    value: '/',
+    func: `onOperator(value)`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: 0,
+    func: `onButton(value)`,
+    type: 'button'
+  },
+  {
+    classes:'',
+    value: '.',
+    func: `onOperator(value)`,
+    type: 'button'
+  },
+  {
+    classes:'result',
+    value: '=',
+    func: `onResult(value)`,
+    type: 'button'
+  },
+]
+function renderButton(arr){
+  const area = document.getElementById('calcArea');
+  const render = []
+  // console.log(arr)
+  arr.forEach(element => {
+    // console.log(element)
+    render.push(button(element.classes,element.value,element.func,element.type,element.disabled))
+  });
+  // console.log(render)
+  area.innerHTML = render.join('')
+}
+renderButton(buttonInfo)
+input = document.getElementById("input");
 
-}
-function swap(a, b) {
-  let temp = a;
-  a = b;
-  b = temp;
-  return [a, b];
-}
+
+
 // Thực hiện nhân chia trước rồi đưa vào mảng
 function multi() {
   const finded = [];
@@ -43,12 +176,12 @@ function multi() {
 }
 
 function onButton(value) {
+  console.log(value)
   isOperator = false;
   if (isDone) {
     isDone = false;
     onClear();
   }
-  if (input.value != "0" || value != "0") {
     if (input.value === "0") {
       input.value = "";
       arrNumb = [];
@@ -56,7 +189,6 @@ function onButton(value) {
     input.value += value;
     currentVal.push(value);
     //   console.log("arrNumb = ", arrNumb, "currentVal = ", currentVal);
-  }
   // console.log(currentVal.join(''));
 }
 
@@ -78,7 +210,6 @@ function calculator() {
       // }
     }
       // console.log('calculator:',preVal, currVal, newVal);
-    
     return newVal;
   });
   if(result.toString() === 'Infinity'){
@@ -91,25 +222,33 @@ function calculator() {
 }
 // Đưa các phép tính sau khi đã nhập vào cùng một mảng
 function onOperator(value) {
+  let notrender = true;
   if (value === "." && isDone) {
     return;
   }
   if (!isOperator) {
+    
     isDone = false;
     if (value.toString() != "" && value.toString() != ".") {
       if (Number(currentVal.join("")))
         arrNumb.push(Number(currentVal.join("")));
+      if(currentVal.join("") === '0')
+        arrNumb.push(Number(currentVal.join("")));
       currentVal = [];
       if (value != "-") Operator.push(value);
     }
-    if (value === ".") {
+    if (value === "." && Number(currentVal.join(""))%1 === 0) {
+      
       currentVal.push(value);
+    }else if(value === "."){
+      notrender = false;
     }
     if (value === "-") {
       currentVal.push("-");
       Operator.push("+");
     }
-    input.value += value;
+    if(notrender)
+      input.value += value;
     console.log(
       "arrNumb = ",arrNumb,
       "currentVal = ",currentVal,
@@ -117,8 +256,10 @@ function onOperator(value) {
     );
   }else{
     if (value === ".") {
-      currentVal.push('0','.');
-      input.value += '0.';
+      if(currentVal.slice(-1) != '.' && Number(currentVal.join(""))%1 === 0){
+        currentVal.push('0','.');
+        input.value += '0.';
+      }
     }else{
       Operator.splice(-1,1);
       isOperator = false;
@@ -138,7 +279,7 @@ function onOperator(value) {
 // Làm sạch nội dung đã nhập
 function onClear() {
   input.value = 0;
-  currentVal = [];
+  currentVal = [0];
   arrNumb = [];
   Operator = [];
 }
