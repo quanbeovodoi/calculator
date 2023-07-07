@@ -78,14 +78,12 @@ const buttonInfo = [
     func: `onOperator(value)`,
     type: 'button'
   },
-  ,
   {
     classes:'',
     value: 7,
     func: `onButton(value)`,
     type: 'button'
   },
-  ,
   {
     classes:'',
     value: 8,
@@ -238,9 +236,8 @@ function onOperator(value) {
       if (value != "-") Operator.push(value);
     }
     if (value === "." && Number(currentVal.join(""))%1 === 0) {
-      
       currentVal.push(value);
-    }else if(value === "."){
+    }else if(value === "." ){
       notrender = false;
     }
     if (value === "-") {
@@ -256,7 +253,7 @@ function onOperator(value) {
     );
   }else{
     if (value === ".") {
-      if(currentVal.slice(-1) != '.' && Number(currentVal.join(""))%1 === 0){
+      if(currentVal.slice(-1) != '.' && Number(currentVal.join(""))%1 === 0  || currentVal.join('').toString()==='-'){
         currentVal.push('0','.');
         input.value += '0.';
       }
